@@ -3,7 +3,7 @@
 This repository contains a JavaScript function `fetchAndProcessImage` that fetches an image from a specified URL, processes it with Cloudflare's image resizing service, and checks the dimensions against target dimensions.
 
 ## Diagram
-[technical-challenge-million\data\million_up.drawio.png]
+![million_up drawio](https://github.com/XIZEN7/technical-challenge-million/assets/60405554/91006d4c-9f47-4a4e-911c-fbd60b48df37)
 
 ## Usage
 
