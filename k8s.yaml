@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app-deployment
+  namespace: tech-prod
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+        - name: flask-app-1
+          image: technical-challenge-million-flask-app
+          ports:
+            - containerPort: 5001
+          volumeMounts:
+            - name: app-volume
+              mountPath: /app
+          command: ["python", "app.py"]
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+            requests:
+              memory: "128Mi"
+              cpu: "500m"
+      volumes:
+        - name: app-volume
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-app-service
+  namespace: tech-prod
+spec:
+  selector:
+    app: flask-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5001
+  type: LoadBalancer
+  externalTrafficPolicy: Local

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hired by Department and Job</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+        th, td {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4 text-center">Hired by Department and Job</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Department</th>
+                    <th>Job</th>
+                    <th>Q1</th>
+                    <th>Q2</th>
+                    <th>Q3</th>
+                    <th>Q4</th>
+                </tr>
+            </thead>
+            <tbody id="data-table">
+                <!-- Los datos se llenarán mediante JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script>
+        $(document).ready(function() {
+            // Realiza una solicitud GET a tu endpoint de datos
+            $.get('/metrics/hired_by_department_and_job', function(data) {
+                const dataTable = $('#data-table');
+                
+                // Llena la tabla con los datos recibidos
+                data.forEach(row => {
+                    const newRow = `
+                        <tr>
+                            <td>${row.department}</td>
+                            <td>${row.job}</td>
+                            <td>${row.Q1}</td>
+                            <td>${row.Q2}</td>
+                            <td>${row.Q3}</td>
+                            <td>${row.Q4}</td>
+                        </tr>
+                    `;
+                    dataTable.append(newRow);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
