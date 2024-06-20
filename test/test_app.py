@@ -11,33 +11,33 @@ db.init_app(app)
 # Frontend Section
 @app.route('/')
 def root() -> str:
-    """Renderiza la página principal."""
+    """Renders the home page."""
     return render_template('home.html')
 
 @app.route('/upload_csv_form')
 def upload_csv_form() -> str:
-    """Renderiza el formulario para subir archivos CSV."""
+    """Renders the form to upload CSV files."""
     return render_template('upload_csv.html')
 
 @app.route('/hired_by_department_jobs')
 def get_page_hired_by_departments_jobs() -> str:
-    """Renderiza la página para ver contrataciones por departamento y trabajo."""
+    """Renders the page to view hires by department and job."""
     return render_template('hired_by_departments_and_jobs.html')
 
 @app.route('/hired_above_mean')
 def get_page_hired_above_mean() -> str:
-    """Renderiza la página para ver contrataciones por encima de la media."""
+    """Renders the page to view hires above mean."""
     return render_template('hired_above_mean.html')
 
 
-# Backend section
+# Backend Section
 @app.route('/upload_csv', methods=['POST'])
 def upload_csv() -> jsonify:
     """
-    Endpoint para subir archivos CSV.
+    Endpoint to upload CSV files.
     
     Returns:
-        JSON response indicando el estado de la subida del archivo.
+        JSON response indicating the status of the file upload.
     """
     csv_file = request.files['file']
     if not csv_file:
@@ -66,10 +66,10 @@ def upload_csv() -> jsonify:
 @app.route('/metrics/departments_above_mean', methods=['GET'])
 def departments_above_mean() -> jsonify:
     """
-    Endpoint para obtener los departamentos por encima de la media.
+    Endpoint to get departments with hires above the mean.
     
     Returns:
-        JSON response con los departamentos y el número de contrataciones por encima de la media.
+        JSON response with departments and the number of hires above the mean.
     """
     try:
         query = text('SELECT * FROM vst_hired_above_mean')
@@ -83,10 +83,10 @@ def departments_above_mean() -> jsonify:
 @app.route('/metrics/hired_by_department_and_job', methods=['GET'])
 def hired_by_department_and_job() -> jsonify:
     """
-    Endpoint para obtener las contrataciones por departamento y trabajo.
+    Endpoint to get hires by department and job.
     
     Returns:
-        JSON response con los departamentos, trabajos y las contrataciones trimestrales.
+        JSON response with departments, jobs, and quarterly hires.
     """
     try:
         query = text('SELECT * FROM vst_hired_by_department_and_job;')
@@ -98,13 +98,13 @@ def hired_by_department_and_job() -> jsonify:
         return jsonify({"error": str(e)}), 500
 
 
-# ETL section  
+# ETL Section  
 def load_departments(df: pd.DataFrame) -> None:
     """
-    Transforma y carga los departamentos.
+    Transforms and loads departments.
     
     Args:
-        df (pd.DataFrame): DataFrame con los datos de los departamentos.
+        df (pd.DataFrame): DataFrame with department data.
     """
     try:
         batch_size = 1000
@@ -128,10 +128,10 @@ def load_departments(df: pd.DataFrame) -> None:
 
 def load_jobs(df: pd.DataFrame) -> None:
     """
-    Transforma y carga los trabajos.
+    Transforms and loads jobs.
     
     Args:
-        df (pd.DataFrame): DataFrame con los datos de los trabajos.
+        df (pd.DataFrame): DataFrame with job data.
     """
     try:
         batch_size = 1000
@@ -155,10 +155,10 @@ def load_jobs(df: pd.DataFrame) -> None:
 
 def load_employees(df: pd.DataFrame) -> None:
     """
-    Transforma y carga los empleados.
+    Transforms and loads employees.
     
     Args:
-        df (pd.DataFrame): DataFrame con los datos de los empleados.
+        df (pd.DataFrame): DataFrame with employee data.
     """
     try:
         batch_size = 1000
@@ -185,6 +185,6 @@ def load_employees(df: pd.DataFrame) -> None:
         raise e
 
 
-# Main section
+# Main Section
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

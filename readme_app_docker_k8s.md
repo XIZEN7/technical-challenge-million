@@ -7,7 +7,7 @@ This repository contains the code for Technical Challenge Million and UP.
 1. **Clone the repository**:
 
     ```bash
-    git clone <repository_url>
+    git clone https://github.com/XIZEN7/technical-challenge-million
     ```
 
 2. **Navigate to the project directory**:

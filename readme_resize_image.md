@@ -1,38 +1,30 @@
-# Image Fetch and Process
+# Technical Challenge Million
+### Image Processing with Cloudflare
 
-This repository contains a JavaScript function `fetchAndProcessImage` that fetches an image from a specified URL, processes it with Cloudflare's image resizing service, and checks the dimensions against target dimensions.
+#### Description
+The code allows fetching and processing an image from a URL specified in the environment variables using Cloudflare for image handling and resizing.
 
-## Diagram
+#### Diagram
 ![million_up drawio](https://github.com/XIZEN7/technical-challenge-million/assets/60405554/91006d4c-9f47-4a4e-911c-fbd60b48df37)
 
-## Usage
+#### Requirements
+- Node.js with support for `async/await`.
+- The `dotenv` package to load environment variables from a `.env` file.
 
-To use the `fetchAndProcessImage` function:
+#### Configuration
+1. Ensure you have a `.env` file in the root of the project with the following variable:
+   ```
+   IMAGE_URL_CLOUDFLARE=<image_url>
+   ```
+   Where `<image_url>` is the URL of the image to be processed.
 
-1. Replace `URL_OF_YOUR_IMAGE_HERE` in the `imageUrl` variable with the URL of the image you want to process.
+#### Variables
+- `targetWidth`: Desired width for the processed image (720 pixels).
+- `targetHeight`: Desired height for the processed image (1080 pixels).
+- `IMAGE_URL_CLOUDFLARE`: URL of the image obtained from the environment variables.
 
-2. Customize the `options` object in the `const options` section according to your image processing requirements. Currently, it resizes the image to `targetWidth` x `targetHeight` pixels using Cloudflare's image resizing service.
-
-3. Run the script and check the console for the result message.
-
-## Function Explanation
-
-The `fetchAndProcessImage` function does the following:
-
-- **Fetches the Image**: Fetches the image from the specified URL using the `fetch` API with provided options.
-
-- **Checks Response**: Checks if fetching the image was successful (`response.ok`). If not, throws an error.
-
-- **Checks Resized Image Dimensions**: Retrieves the dimensions of the resized image from the response header (`cf-image-dimensions`).
-
-- **Compares Dimensions**: Compares the original dimensions of the image with the target dimensions (`targetWidth` x `targetHeight`) and prepares a message based on the comparison.
-
-- **Returns Response**: Returns a `Response` object with a message indicating the status of the image dimensions.
-
-- **Error Handling**: Catches and handles errors that occur during fetching or processing, logging them to the console and returning an appropriate error response.
-
-## Example
-
+#### Processing Options
+The code uses the following options for image processing:
 ```javascript
 const options = {
     cf: {
@@ -44,19 +36,25 @@ const options = {
         }
     }
 };
-
-const imageUrl = 'URL_OF_YOUR_IMAGE_HERE';
-
-fetchAndProcessImage(imageUrl, options)
-    .then(response => {
-        console.log(response);
-    })
-    .catch(error => {
-        console.error('Error processing image:', error);
-    });
 ```
+- `width`: Target width of the image.
+- `height`: Target height of the image.
+- `fit`: Image fitting method (in this case, 'scale-down').
+- `format`: Image format (in this case, 'auto').
 
-## Requirements
+#### Main Function
+The `fetchAndProcessImage` function performs the following steps:
+1. Checks if the image URL is defined in the environment variables.
+2. Validates that the image format is one of the allowed formats (PNG, JPEG, JPG, SVG).
+3. Fetches the image from the specified URL with the resizing options.
+4. Checks if the image download was successful.
+5. Compares the original image dimensions with the desired dimensions.
+6. Returns a message indicating the status of the image processing.
 
-- Node.js environment
-- Properly configured Cloudflare account for image resizing
+#### Error Handling
+- If any error occurs during the image fetching or processing, it is caught and logged to the console.
+- Returns an error message with HTTP status 500 if any issue arises.
+
+#### Execution
+To run the code, make sure you have the environment variables configured correctly, then call the `fetchAndProcessImage(options)` function. This function returns a promise that you can handle to get the result of the image processing.
+

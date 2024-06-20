@@ -37,7 +37,7 @@
                 </tr>
             </thead>
             <tbody id="data-table">
-                <!-- Los datos se llenarán mediante JavaScript -->
+                <!-- Data will be populated via JavaScript -->
             </tbody>
         </table>
     </div>
@@ -46,11 +46,11 @@
     <!-- Custom JavaScript -->
     <script>
         $(document).ready(function() {
-            // Realiza una solicitud GET a tu endpoint de datos
+            // Make a GET request to your data endpoint
             $.get('/metrics/hired_by_department_and_job', function(data) {
                 const dataTable = $('#data-table');
                 
-                // Llena la tabla con los datos recibidos
+                // Populate the table with the received data
                 data.forEach(row => {
                     const newRow = `
                         <tr>
